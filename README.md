@@ -48,3 +48,17 @@ No hay prórroga: suban avances parciales con commits pequeños durante la prueb
 | [`test-manager-library-3145555-page`](https://github.com/code-sena/test-manager-library-3145555-page) | Sitio público estático de presentación |
 | [`test-manager-library-3145555-infra`](https://github.com/code-sena/test-manager-library-3145555-infra) | Contenedores, red, volúmenes y motor de base de datos vacío |
 | [`test-manager-library-3145555-tool`](https://github.com/code-sena/test-manager-library-3145555-tool) | Utilidades: sembrador de datos de demostración |
+
+## Historia técnica INFRA-01 — Levantar el entorno con Docker Compose
+
+Como equipo del proyecto, queremos iniciar desde `infra` el motor de base de datos vacío, la API y el frontend con un solo comando, para poder ejecutar el sistema conforme al spec.
+
+**Criterios de aceptación**
+
+- `docker compose up` inicia PostgreSQL 16, la API Laravel y el frontend React.
+- Al iniciar los servicios, PostgreSQL está vacío de tablas del sistema; el esquema se crea al ejecutar las migraciones de Laravel que pertenecen a `api`.
+- `infra` no contiene DDL ni ejecuta las migraciones.
+- Los datos de demostración se cargan por separado desde `tool`, usando la API.
+- El README de `infra` documenta el comando para iniciar el entorno.
+
+Esta historia técnica desglosa únicamente T-20 de `spec-laravel/tasks.md` en `test-manager-library-3145555-docs`. El spec de `docs` sigue siendo la fuente de verdad; esta historia no agrega alcance funcional.
