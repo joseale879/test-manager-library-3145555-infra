@@ -66,7 +66,7 @@ No hay prórroga: suban avances parciales con commits pequeños durante la prueb
 
 ### Dependency and implementation order
 
-This story depends on task T-17: the API must already have its documented startup behavior. The API and React repositories are currently empty apart from their READMEs, so this Compose story cannot be verified until their required application artifacts exist. Implement the API tasks in the order specified by `spec-laravel-php/tasks.md`, then complete this story without changing product scope.
+This story depends on task T-17: the API must have its documented startup behavior before the Compose setup can be considered verified end to end.
 
 ### Verification
 
@@ -75,3 +75,13 @@ This story depends on task T-17: the API must already have its documented startu
 3. Confirm the API health endpoint responds successfully.
 4. Confirm the `library` schema has no application tables before Laravel migrations are run.
 5. Confirm no migration or demo-data command ran as a side effect of starting Compose.
+
+## Ejecutar el entorno
+
+Los seis repositorios deben estar clonados como carpetas hermanas, como en la estructura del workspace.
+
+1. Copia `.env.example` a `.env` y define un valor local para `POSTGRES_PASSWORD`. Si el puerto `5173` ya está ocupado, cambia `APP_PORT` en `.env`.
+2. Desde este repositorio ejecuta `docker compose up`.
+3. Abre la interfaz en `http://localhost:<APP_PORT>` (por defecto `5173`) y la API en `http://localhost:8000/api/v1/health`.
+
+PostgreSQL arranca sin tablas de Manager Library en un volumen nuevo. Para crear el esquema, ejecuta las migraciones Laravel de `api` con `docker compose exec api php artisan migrate`. `infra` no contiene DDL ni ejecuta el sembrador; los datos de demostración se cargan después desde `tool` a través de la API.
